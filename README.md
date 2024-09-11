@@ -18,6 +18,8 @@ Para utilizar este UserScript, necesitarás una extensión de navegador que gest
 3. Descarga el archivo `horario.ics` que contiene el horario de clases en formato ICS.
 4. Para añadir el archivo ICS a tu calendario en iOS puedes utilizar el siguiente atajo. [ICS to Calendar](https://www.icloud.com/shortcuts/526e9629dea64ce0b0b990b117a37ffe)
 
+![](https://github.com/beltrnjordi/exportadorHorarioUV/ejemplo.gif)
+
 ## Contribuciones
 
 Si deseas contribuir al proyecto o tienes sugerencias, por favor abre un issue o un pull request con tus cambios.
