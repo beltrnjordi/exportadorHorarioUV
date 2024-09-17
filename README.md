@@ -14,9 +14,10 @@ Para utilizar este UserScript, necesitarás una extensión de navegador que gest
 ## Uso
 
 1. Accede a la página de horario de clases en la [Intranet de la Universitat de València](https://intranet.uv.es/portal/ac_students_schedule).
-2. Haz clic en el botón "Descargar Horario" que aparecerá en la parte inferior derecha de la página.
-3. Descarga el archivo `horario.ics` que contiene el horario de clases en formato ICS.
-4. Para añadir el archivo ICS a tu calendario en iOS puedes utilizar el siguiente atajo. [ICS to Calendar](https://www.icloud.com/shortcuts/526e9629dea64ce0b0b990b117a37ffe)
+2. Cambia la visualización a meses, y cambia de mes hasta mayo/julio 2025 dejando que se carguen completamente todos los meses, esto almacenará todo el horario en un array.
+3. Haz clic en el botón "Descargar Horario" que aparecerá en la parte inferior derecha de la página.
+4. Descarga el archivo `horario.ics` que contiene el horario de clases en formato ICS.
+5. Para añadir el archivo ICS a tu calendario en iOS puedes utilizar el siguiente atajo. [ICS to Calendar](https://www.icloud.com/shortcuts/526e9629dea64ce0b0b990b117a37ffe)
 
 [Enlace a vídeo de Youtube](https://youtu.be/AMUdb8mReDE)
 
