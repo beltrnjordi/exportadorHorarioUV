@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         Exportador de horario de clases de la Universitat de València
 // @namespace    http://tampermonkey.net/
-// @version      1.2
-// @description  Intercepta una solicitud XHR que contiene como response el horario en formato JSON y permite descargarlo en formato ICS mediante un botón
+// @version      1.3
+// @description  Intercepta solicitudes XHR para combinar datos de horarios de diferentes meses y exportarlos en formato ICS mediante un botón
 // @author       Jordi Beltran Querol (beltrnjordi)
 // @match        https://intranet.uv.es/portal/ac_students_schedule
 // @grant        none
@@ -11,7 +11,7 @@
 (function() {
     'use strict';
 
-    let scheduleData = null; // Variable para almacenar la respuesta JSON
+    let horario = []; // Array para almacenar todas las respuestas JSON, para ello, si quieres almacenar en el fichero ICS el curso completo debes moverte hasta mayo de 2025
 
     // Crear y añadir el botón al DOM
     const downloadButton = document.createElement('button');
@@ -44,8 +44,9 @@
         downloadButton.style.backgroundColor = '#016ca2';
     });
     downloadButton.addEventListener('click', function() {
-        if (scheduleData) {
-            const icsContent = convertToICS(scheduleData);
+        if (horario.length > 0) {
+            const data = { items: horario.flatMap(data => data.items) };
+            const icsContent = convertToICS(data);
             const blob = new Blob([icsContent], { type: 'text/calendar' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
@@ -66,9 +67,9 @@
             ics += 'BEGIN:VEVENT\n';
             ics += `DTSTART:${formatDateToICS(item.inicio)}\n`;
             ics += `DTEND:${formatDateToICS(item.fin)}\n`;
-            ics += `SUMMARY:${item.nombre_asignatura} - ${item.nombre_actividad}\n`;
+            ics += `SUMMARY:${item.nombre_asignatura} - ${item.identificador_grupo}\n`;
             ics += `LOCATION:${item.nombre_lugar}\n`;
-            ics += `DESCRIPTION:${item.nombre_grupo}\n`;
+            ics += `DESCRIPTION:${item.nombre_grupo} - ${item.identificador_grupo}\n`;
             ics += 'END:VEVENT\n';
         });
         ics += 'END:VCALENDAR';
@@ -98,8 +99,9 @@
             if (this._url.startsWith('https://portal-api.universitasxxi.cloud/ac5/schedule/teacherstudent')) {
                 try {
                     // Parsear la respuesta JSON y almacenarla en la variable
-                    scheduleData = JSON.parse(this.responseText);
-                    console.log('Respuesta XHR detectada:', scheduleData);
+                    const data = JSON.parse(this.responseText);
+                    console.log('Respuesta XHR detectada:', data);
+                    horario.push(data); // Agregar la respuesta al array de datos
                 } catch (e) {
                     // Manejar errores en el análisis del JSON
                     console.error('Error al analizar JSON:', e);
